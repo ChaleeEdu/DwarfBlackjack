@@ -17,4 +17,5 @@ namespace DwarfBlackjack.Classes
         }
 
     }
+
 }
