@@ -11,8 +11,8 @@ namespace DwarfBlackjack
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("PixelifySans-Regular.ttf", "PixelifySansRegular");
+                    fonts.AddFont("PixelifySans-Semibold.ttf", "PixelifySansSemibold");
                 });
 
 #if DEBUG

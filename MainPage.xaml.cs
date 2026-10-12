@@ -1,12 +1,18 @@
-﻿namespace DwarfBlackjack
+﻿using DwarfBlackjack.Classes;
+
+namespace DwarfBlackjack
 {
     public partial class MainPage : ContentPage
     {
         int count = 0;
+        Deck deck = new Deck();
 
         public MainPage()
         {
             InitializeComponent();
+            deck.Shuffle();
+
+
         }
 
         private void OnCounterClicked(object? sender, EventArgs e)
