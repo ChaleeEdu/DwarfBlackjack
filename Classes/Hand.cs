@@ -6,5 +6,9 @@ namespace DwarfBlackjack.Classes
 {
     internal class Hand
     {
+        public Hand 
+            {
+
+        }
     }
 }
