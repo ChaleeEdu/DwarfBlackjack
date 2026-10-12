@@ -11,7 +11,7 @@ namespace DwarfBlackjack
         {
             InitializeComponent();
             deck.Shuffle();
-
+            deck.Shuffle();
 
         }
 
