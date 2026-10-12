@@ -6,5 +6,10 @@ namespace DwarfBlackjack.Classes
 {
     internal class Card
     {
+        public Card()
+        {
+            Console.WriteLine("Hej");
+        }
     }
+
 }
