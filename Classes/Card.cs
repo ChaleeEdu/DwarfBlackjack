@@ -14,6 +14,7 @@ namespace DwarfBlackjack.Classes
         {
             Suit = suit;
             Rank = rank;
+
         }
 
     }
