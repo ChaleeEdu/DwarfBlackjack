@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DwarfBlackjack.Views.MenuPage"
+             Shell.NavBarIsVisible="False"
+             Title="MenuPage">
+    <Grid
+        HorizontalOptions="Fill"
+        
+        VerticalOptions="Fill">
+        <Image
+            Source="background_intro.png"
+            Aspect="Fill"/>
+        <Grid
+            RowDefinitions="3*,1*"
+            ColumnDefinitions="*">
+            <Button
+                Grid.Row="1"
+                Text="PLAY"
+                Style="{StaticResource GameButtonStyle}"
+                FontSize="30"
+                
+                WidthRequest="180"
+                HeightRequest="60"
+                Padding="0"
+                Margin="20"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Clicked="OnPlayClicked">
+
+                <Button.Shadow>
+                    <Shadow
+                    Brush="#2A120A"
+                    Offset="0,7"
+                    Radius="5"
+                    Opacity="0.85" />
+                </Button.Shadow>
+
+            
+
+            </Button>
+        </Grid>
+    </Grid>
+</ContentPage>
