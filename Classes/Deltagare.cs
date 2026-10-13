@@ -15,7 +15,7 @@ namespace DwarfBlackjack.Classes
 
         public void Hit()
         {
-
+            
         }
         
         public void Stand()
