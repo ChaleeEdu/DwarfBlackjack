@@ -65,17 +65,25 @@
             <HorizontalStackLayout
                 x:Name="ActionButtons"
                 Spacing="10"
-                Margin="10"
+                
                 Grid.Row="6"
                 HorizontalOptions="Center">
 
                 <Button
                     Text="HIT"
+                    Style="{StaticResource GameButtonStyle}"
+                    FontSize="30"
+                    Margin="10"
+                    HorizontalOptions="Fill"
                     x:Name="HitButton"
                     Clicked="OnHitClicked" />
 
                 <Button
                     Text="STAND"
+                    Style="{StaticResource GameButtonStyle}"
+                    FontSize="30"
+                    Margin="10"
+                    HorizontalOptions="Fill"
                     x:Name="StandButton"
                     Clicked="OnStandClicked" />
                 
