@@ -2,11 +2,48 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DwarfBlackjack.Views.MenuPage"
+             Shell.NavBarIsVisible="False"
              Title="MenuPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid
+        HorizontalOptions="Fill"
+        
+        VerticalOptions="Fill">
+        <Image
+            Source="background_intro.png"
+            Aspect="Fill"/>
+        <Grid
+            RowDefinitions="3*,1*"
+            ColumnDefinitions="*">
+            <Button
+                Grid.Row="1"
+                Text="PLAY"
+                
+                FontSize="30"
+                FontAttributes="Bold"
+                TextColor="#4A2418"
+                BackgroundColor="#E8B85A"
+                BorderColor="#FFF0B0"
+                BorderWidth="3"
+                CornerRadius="10"
+                WidthRequest="180"
+                HeightRequest="60"
+                Padding="0"
+                Margin="20"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Clicked="OnPlayClicked">
+
+                <Button.Shadow>
+                    <Shadow
+                    Brush="#2A120A"
+                    Offset="0,7"
+                    Radius="5"
+                    Opacity="0.85" />
+                </Button.Shadow>
+
+            
+
+            </Button>
+        </Grid>
+    </Grid>
 </ContentPage>
