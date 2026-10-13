@@ -9,9 +9,22 @@ namespace DwarfBlackjack
             InitializeComponent();
         }
 
-        protected override Window CreateWindow(IActivationState? activationState)
+        /*protected override Window CreateWindow(IActivationState? activationState)
         {
             return new Window(new AppShell());
+        }*/
+        protected override Window CreateWindow(IActivationState? activationState)
+        {
+            const int newWidth = 480;
+            const int newHeight = 800;
+
+            return new Window(new AppShell())
+            {
+                Width = newWidth,
+                Height = newHeight,
+                //X = 100, // Optional: position from left
+                //Y = 100 // Optional: position from top
+            };
         }
     }
 }
