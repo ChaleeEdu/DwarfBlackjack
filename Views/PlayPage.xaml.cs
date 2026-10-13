@@ -11,7 +11,6 @@ public partial class PlayPage : ContentPage
 {
     private int playerScore = 0;
     private int dealerScore = 0;
-    private int hiddenDealerScore = 0;
     private const double CardAspectRatio = 168.0 / 240.0; //bildstorlek på korten
     private const double CardSpacingRatio = 0.6; //kort överlappar varandra 40%
 
