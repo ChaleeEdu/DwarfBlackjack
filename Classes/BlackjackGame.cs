@@ -15,6 +15,19 @@ namespace DwarfBlackjack.Classes
 
         }
 
+        /*public Card PlayerHit()
+        {
+            //Card card = Deck.DrawCard();
+            //Player.Hand.AddCard(card);
+
+            return card;
+        }*/
+
+        public void PlayerStand()
+        {
+            // Kör dealer-logiken
+        }
+
         public void StartGame()
         {
             

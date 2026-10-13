@@ -32,12 +32,12 @@ namespace DwarfBlackjack.Classes
 
             foreach (Card card in cards) 
             { 
-                if (card.Rank == "A") // sätter värde på ess till 11 och ökar aceCount med 1 om man har ett ess - Alex
+                if (card.Rank == "a") // sätter värde på ess till 11 och ökar aceCount med 1 om man har ett ess - Alex
                 {
                     total += 11;
                     aceCount++;
                 }
-                else if (card.Rank == "J" || card.Rank == "Q" || card.Rank == "K") // sätter värde på klädda kort till 10 - Alex
+                else if (card.Rank == "j" || card.Rank == "q" || card.Rank == "k") // sätter värde på klädda kort till 10 - Alex
                 {
                     total += 10;
                 }

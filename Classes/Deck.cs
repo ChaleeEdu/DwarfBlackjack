@@ -10,8 +10,8 @@ namespace DwarfBlackjack.Classes
     {
         private Random random = new Random();
         int currentIndex = 0; //var i deck man tagit kort .Calle
-        string[] suits = { "H", "D", "C", "S" };
-        string[] ranks = {"A", "2", "3",  "4" , "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+        string[] suits = { "hearts", "diamonds", "clubs", "spades" };
+        string[] ranks = {"a", "2", "3",  "4" , "5", "6", "7", "8", "9", "10", "j", "q", "k"};
 
         List<Card> cards = new List<Card>();
         public Deck() 
@@ -28,7 +28,7 @@ namespace DwarfBlackjack.Classes
 
         }
 
-        public  void Shuffle()
+        public void Shuffle()
         {
             Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards));
             foreach(Card card in cards)

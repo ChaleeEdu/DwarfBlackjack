@@ -10,10 +10,13 @@ namespace DwarfBlackjack.Classes
         public string Suit { get; private set; }
         public string Rank { get; private set; }
 
+        public string ImageSource {  get; private set; }
+
         public Card (string suit, string rank)
         {
             Suit = suit;
             Rank = rank;
+            ImageSource = $"card_{Suit}_{Rank}.png";
 
         }
 
