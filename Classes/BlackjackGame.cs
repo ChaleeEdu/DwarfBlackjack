@@ -6,44 +6,46 @@ namespace DwarfBlackjack.Classes
 {
     internal class BlackjackGame
     {
-        Deck deck = new Deck();
-        Dealer dealer = new Dealer();
-        Player player = new Player();
+        public Player Player { get; }
+        public Dealer Dealer { get; }
+        public Deck Deck { get; }
 
         public BlackjackGame()
         {
-
+            Deck = new Deck();
+            Player = new Player();
+            Dealer = new Dealer();
         }
 
-        /*public Card PlayerHit()
+        public Card PlayerHit()
         {
-            //Card card = Deck.DrawCard();
-            //Player.Hand.AddCard(card);
+            Card card = Deck.DrawCard(); //Ta ett kort från deck
+            Player.AddCard(card); //Ge till player
 
             return card;
-        }*/
+        }
+        public int GetPlayerScore()
+        {
+            return Player.Score();
+        }
+
+        public Card DealerHit()
+        {
+            Card card = Deck.DrawCard();
+            Dealer.AddCard(card);
+
+            return card;
+        }
+
+        public int GetDealerScore()
+        {
+            return Dealer.Score();
+        }
+        
 
         public void PlayerStand()
         {
             // Kör dealer-logiken
-        }
-
-        public void StartGame()
-        {
-            
-        }
-        public int GetPlayerValue()
-        {
-            return 0;
-        }
-        
-        /*
-         * Logik för att gömma värdet på andra kortet
-         */
-        public int GetDealerValue()
-        {
-            return 0;
-
         }
     }
 }

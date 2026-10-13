@@ -34,5 +34,11 @@ namespace DwarfBlackjack.Classes
             foreach(Card card in cards)
             Debug.WriteLine($"{card.Suit} {card.Rank}");
         }
+
+        public Card DrawCard()
+        {
+            currentIndex++;
+            return cards[currentIndex-1];
+        }
     }
 }

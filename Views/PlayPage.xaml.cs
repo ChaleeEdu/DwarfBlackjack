@@ -9,7 +9,9 @@ namespace DwarfBlackjack.Views;
 
 public partial class PlayPage : ContentPage
 {
-    
+    private int playerScore = 0;
+    private int dealerScore = 0;
+    private int hiddenDealerScore = 0;
     private const double CardAspectRatio = 168.0 / 240.0; //bildstorlek på korten
     private const double CardSpacingRatio = 0.6; //kort överlappar varandra 40%
 
@@ -38,31 +40,15 @@ public partial class PlayPage : ContentPage
 
     private async void OnPageLoaded(object? sender, EventArgs e)
     {
-        GiveInitialCards();
+        await GiveInitialCards();
         
     }
     private async Task GiveInitialCards()
     {
-        
-        await GivePlayerCard("card_hearts_02.png");
-
-        await Task.Delay(300);
-
-        
-        await GiveDealerCard("card_spades_08.png");
-
-        await Task.Delay(300);
-
-        
-        await GivePlayerCard("card_hearts_k.png");
-
-        await Task.Delay(300);
-
-       
-        await GiveDealerCard("card_spades_q.png");
-
-        await Task.Delay(300);
-        
+        await PlayerHit();
+        await DealerHit();
+        await PlayerHit();
+        await DealerHit();
     }
     private async Task GivePlayerCard(string cardText)
     {
@@ -70,11 +56,11 @@ public partial class PlayPage : ContentPage
 
         PlayerCards.Children.Add(card);
         PositionCards(PlayerCards);
-
-        await card.AnimateCardIn(
-            Spelplan.Height
-        );
+        
+        await card.AnimateCardIn(Spelplan.Height);
         await card.FlipAsync();
+
+        UpdatePlayerScore();
     }
 
     private async Task GiveDealerCard(string cardText)
@@ -84,16 +70,18 @@ public partial class PlayPage : ContentPage
         if (DealerCards.Children.Count == 1)
         {
             card.IsHidden = true;
-            
         }
+
         DealerCards.Children.Add(card);
         PositionCards(DealerCards);
         await card.AnimateCardIn(Spelplan.Height);
         await card.FlipAsync();
+
+        if (!card.IsHidden)
+        {
+            UpdateDealerScore();
+        }
     }
-
-    
-
     private void PositionCards(AbsoluteLayout container)
     {
         int count = container.Children.Count;
@@ -106,8 +94,7 @@ public partial class PlayPage : ContentPage
         double totalWidth = cardWidth + (count - 1) * spacing;
         double startX = (container.Width - totalWidth) / 2;
         double y = (container.Height - cardHeight) / 2;
-        System.Diagnostics.Debug.WriteLine($"Container: {container.Width} x {container.Height}" +
-            $"Card: {cardWidth} x {cardHeight} TotalWidth: {totalWidth}");
+        
         for (int i = 0; i < count; i++)
         {
             
@@ -117,28 +104,45 @@ public partial class PlayPage : ContentPage
             Rect rect = new Rect(x, y, cardWidth, cardHeight);
             AbsoluteLayout.SetLayoutBounds(card, rect);
             AbsoluteLayout.SetLayoutFlags(card, AbsoluteLayoutFlags.None);
-            
-
         }
     }
     
-
-   
     private async void OnHitClicked(object sender, EventArgs e)
     {
-        
         GameStatus.Text = "Your turn";
-        
-
-        await GivePlayerCard("card_spades_k.png");
+        await PlayerHit();
     }
 
     private async void OnStandClicked(object sender, EventArgs e)
     {
-        
         GameStatus.Text = "Dealer's turn";
+        await PlayerHit();
+    }
+
+    private async Task PlayerHit()
+    {
+        Card card = blackjackGame.PlayerHit();
+        await GivePlayerCard(card.ImageSource);
+         
+    }
+
+    private async Task DealerHit()
+    {
+        Card card = blackjackGame.DealerHit();
+        await GiveDealerCard(card.ImageSource);
         
-        await GivePlayerCard("card_diamonds_04.png");
+    }
+
+    private void UpdatePlayerScore()
+    {
+        playerScore = blackjackGame.GetPlayerScore();
+        PlayerScore.Text = $"{playerScore}";
+    }
+
+    private void UpdateDealerScore()
+    {
+        dealerScore = blackjackGame.GetDealerScore();
+        DealerScore.Text = $"{dealerScore}";
     }
 
     

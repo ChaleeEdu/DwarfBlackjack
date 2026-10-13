@@ -13,6 +13,11 @@ namespace DwarfBlackjack.Classes
 
         }
 
+        public void AddCard(Card card)
+        {
+            hand.AddCard(card);
+        }
+
         public void Hit()
         {
             
@@ -26,6 +31,11 @@ namespace DwarfBlackjack.Classes
         public List<Card> ShowHand()
         {
             return hand.ShowHand();
+        }
+
+        public int Score()
+        {
+            return hand.CardsValue;
         }
     }
 }
