@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DwarfBlackjack.Views.PlayPage"
+             xmlns:view="clr-namespace:DwarfBlackjack.Views"
+             Shell.NavBarIsVisible="False"
+             Title="PlayPage">
+    <Grid
+        x:Name="Spelplan"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill">
+
+        <Image
+            Source="background_play.png"
+            Aspect="Fill" />
+
+        <Grid
+            RowDefinitions="1*,2*,1*,1*,2*,1*,1*"
+            ColumnDefinitions="*">
+
+            <Label
+                x:Name="DealerScore"
+                Text="0"
+                TextColor="White"
+                Grid.Row="0"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="End" />
+
+            <AbsoluteLayout
+                x:Name="DealerCards"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
+                Grid.Row="1" />
+
+            <Label
+                x:Name="DealerLabel"
+                Text="DEALER"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"
+                Grid.Row="2"
+                TextColor="Gold" />
+
+            <Label
+                x:Name="GameStatus"
+                Text="Your turn"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"
+                Grid.Row="3"
+                TextColor="White" />
+
+            <AbsoluteLayout
+                x:Name="PlayerCards"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
+                Grid.Row="4" />
+
+            <Label
+                x:Name="PlayerScore"
+                Text="0"
+                Grid.Row="5"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Start"
+                TextColor="White" />
+
+            <HorizontalStackLayout
+                x:Name="ActionButtons"
+                Spacing="10"
+                Margin="10"
+                Grid.Row="6"
+                HorizontalOptions="Center">
+
+                <Button
+                    Text="HIT"
+                    x:Name="HitButton"
+                    Clicked="OnHitClicked" />
+
+                <Button
+                    Text="STAND"
+                    x:Name="StandButton"
+                    Clicked="OnStandClicked" />
+                
+                
+
+            </HorizontalStackLayout>
+
+
+        </Grid>
+
+    </Grid>
+</ContentPage>
