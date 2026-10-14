@@ -8,15 +8,21 @@ namespace DwarfBlackjack.Classes
     {
         bool hideCard = true;
         Hand dealer = new Hand();
-        Deltagare deltagare = new Deltagare();
+        Deltagare Dealer = new Deltagare();
+
+        public void DealerDeafultHand()
+        {
+            Dealer.AddCard();
+            Dealer.AddCard(); // hide funktionality for the dealer's second card - Alex
+        }
 
         public void DealerPlay()
         {
             do
             {
-                deltagare.Hit();
+                Dealer.Hit();
             }
-            while (deltagare.GetTotalValue() < 17);
+            while (Dealer.GetTotalValue() < 17);
         }
     }
 }

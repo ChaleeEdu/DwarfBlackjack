@@ -20,8 +20,10 @@ namespace DwarfBlackjack.Classes
 
         public void Hit()
         {
-            
+            AddCard();
+            GetTotalValue();
         }
+        public 
         
         public void Stand()
         {
