@@ -7,19 +7,61 @@ namespace DwarfBlackjack.Classes
 
     internal class Hand
     {
+        Deltagare Dealer = new Deltagare();
+        Deltagare Player = new Deltagare();
         List<Card> cards = new List<Card>();
-        public int CardsValue { get; set; }
-
-        public bool IsBust
-        {
-            get // hämtar värdet på handen - Alex
-            {
-                return CardsValue > 21;  // returnerar true om handens värde är över 21 - Alex
-            }
-        }
         public Hand()
         {
         }
+        public int CardsValue { get; set; }
+        public bool IsBlackjackPlayer()
+        {
+            if (Player.GetTotalValue() ==21) // kollar om värdet på handen är 21 och om man har två kort - Alex
+            {
+                return true; // returnerar true om man har blackjack - Alex
+            }
+            else
+            {
+                return false; // returnerar false om man inte har blackjack - Alex
+            }
+        }
+        public bool IsBlackjackDealer()
+        {
+            if (Dealer.GetTotalValue() == 21) 
+            {
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+        public bool IsBustPlayer()
+        {
+            if (Player.GetTotalValue() > 21) // kollar om värdet på handen är över 21 - Alex
+            {
+                return true; // returnerar true om man har bust - Alex
+            }
+            else
+            {
+                return false; // returnerar false om man inte har bust - Alex
+            }
+        }
+
+        public bool IsBustDealer()
+        {
+            if (Dealer.GetTotalValue() > 21) 
+            {
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+       
         public void AddCard(Card card)
         {
             cards.Add(card);
