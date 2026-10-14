@@ -36,7 +36,7 @@ namespace DwarfBlackjack.Classes
                 "Q" => 10,
                 "K" => 10,
                 "A" => 11, // Ändrar string till ett numeriskt värde
-                _ => int.Parse(Rank)
+                _ => int.Parse(Rank) // allt ovanför understreck läser den av och konverterar till ett int värde
             };
             // get displayvalue grej här om du behöver? Jag vet inte - Alex
         }
