@@ -39,5 +39,11 @@ namespace DwarfBlackjack.Classes
             int totalvalue = totalvalue + card.GetValue();   
             return totalvalue;
         }
+        public int ResetHand()
+        {
+            int totalvalue = 0;
+            return totalvalue;
+        }
+
     }
 }
