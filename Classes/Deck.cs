@@ -14,6 +14,9 @@ namespace DwarfBlackjack.Classes
         string[] ranks = {"a", "2", "3",  "4" , "5", "6", "7", "8", "9", "10", "j", "q", "k"};
 
         List<Card> cards = new List<Card>();
+        public int CardsLeft => cards.Count - currentIndex;
+        public bool IsEmpty => CardsLeft == 0;
+
         public Deck() 
         { 
             foreach(string suit in suits)
@@ -22,11 +25,14 @@ namespace DwarfBlackjack.Classes
                 {
                     Card card = new Card(suit, rank);
                     cards.Add(card);
-                    Shuffle();
+                    
                 }
             }
-
+            Shuffle();
         }
+        
+        public void ResetDeck()
+
 
         public void Shuffle()
         {
