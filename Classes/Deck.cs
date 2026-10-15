@@ -25,8 +25,15 @@ namespace DwarfBlackjack.Classes
                     Shuffle();
                 }
             }
-
+            Shuffle();
         }
+        
+        public void ResetDeck()
+        {
+            currentIndex = 0;
+            Shuffle();
+        }
+
 
         public void Shuffle()
         {

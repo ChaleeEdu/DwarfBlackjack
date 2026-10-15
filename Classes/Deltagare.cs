@@ -18,10 +18,8 @@ namespace DwarfBlackjack.Classes
             hand.AddCard(card);
         }
 
-        public void Hit()
-        {
-            
-        }
+        
+        public 
         
         public void Stand()
         {

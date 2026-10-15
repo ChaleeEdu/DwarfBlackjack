@@ -6,5 +6,8 @@ namespace DwarfBlackjack.Classes
 {
     internal class Player : Deltagare
     {
+        
+        
+       
     }
 }
