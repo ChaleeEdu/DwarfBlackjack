@@ -24,9 +24,10 @@ namespace DwarfBlackjack.Classes
 
             return card.ImageSource;
         }
+        
         public int GetPlayerScore()
         {
-            Player.GetTotalValue(); //Returnera spelarens poäng
+            return Player.Score();
         }
 
         public string DealerHit()
@@ -39,13 +40,15 @@ namespace DwarfBlackjack.Classes
 
         public int GetDealerScore()
         {
-            Dealer.GetTotalValue();
+            return Dealer.Score();
         }
         
         public bool DealerNeedsCard()
         {
             return Dealer.Score() < 17;
         }
+
+         
 
     }
 }
