@@ -46,6 +46,6 @@ namespace DwarfBlackjack.Classes
             int totalvalue = 0;
             return totalvalue;
         }
-
+        
     }
 }

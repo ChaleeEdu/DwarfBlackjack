@@ -7,22 +7,19 @@ using System.ComponentModel;
 
 namespace DwarfBlackjack.Views;
 
+//PlayPage bestämmer vad som ska visas på skärmen under spelets gång @author Calle Nilsson
 public partial class PlayPage : ContentPage
 {
-    private int playerScore = 0;
-    private int dealerScore = 0;
-    private int hiddenDealerScore = 0;
+    private int dealerPoints = 0;
     private const double CardAspectRatio = 168.0 / 240.0; //bildstorlek på korten
     private const double CardSpacingRatio = 0.6; //kort överlappar varandra 40%
 
-    
-
-    private BlackjackGame blackjackGame = new BlackjackGame();
+    private BlackjackGame blackjackGame;
 
     public PlayPage()
 	{
 		InitializeComponent();
-
+        blackjackGame = new BlackjackGame();
         PlayerCards.SizeChanged += OnPlayerCardsSizeChanged;
         DealerCards.SizeChanged += OnDealerCardsSizeChanged;
 
@@ -49,8 +46,9 @@ public partial class PlayPage : ContentPage
         await DealerHit();
         await PlayerHit();
         await DealerHit();
+        CheckInitialGameState();
     }
-    private async Task GivePlayerCard(string cardText)
+    private async Task RenderPlayerCard(string cardText)
     {
         var card = new Views.CardContentView(cardText);
 
@@ -63,7 +61,7 @@ public partial class PlayPage : ContentPage
         UpdatePlayerScore();
     }
 
-    private async Task GiveDealerCard(string cardText)
+    private async Task RenderDealerCard(string cardText)
     {
         var card = new Views.CardContentView(cardText);
         // Göm dealers andra kort
@@ -82,25 +80,29 @@ public partial class PlayPage : ContentPage
             UpdateDealerScore();
         }
     }
+    /* Positonerar varje kort så att de överlappar varandra 40% */
     private void PositionCards(AbsoluteLayout container)
     {
         int count = container.Children.Count;
-        /*if (count == 0 || container.Width <= 0 || container.Height <= 0)
-            return;*/
+        
         double cardHeight = container.Height * 0.8;
         double cardWidth = cardHeight * CardAspectRatio;
-
+        // Avståndet mellan kortens vänstra kanter.
+        // Eftersom spacing är mindre än kortets bredd kommer korten att överlappa.
         double spacing = cardWidth * CardSpacingRatio;
+        // Den totala bredden som alla kort tillsammans tar upp.
         double totalWidth = cardWidth + (count - 1) * spacing;
+        // X-positionen för det första kortet så att hela raden
+        // med kort hamnar centrerad i containern.
         double startX = (container.Width - totalWidth) / 2;
         double y = (container.Height - cardHeight) / 2;
         
         for (int i = 0; i < count; i++)
         {
-            
             var card = (View)container.Children[i];
+            //Varje nytt kort flyttas åt höger med samma spacing
             double x = startX + i * spacing;
-            // Add the card at its final layout position
+            
             Rect rect = new Rect(x, y, cardWidth, cardHeight);
             AbsoluteLayout.SetLayoutBounds(card, rect);
             AbsoluteLayout.SetLayoutFlags(card, AbsoluteLayoutFlags.None);
@@ -116,36 +118,56 @@ public partial class PlayPage : ContentPage
     private async void OnStandClicked(object sender, EventArgs e)
     {
         GameStatus.Text = "Dealer's turn";
-        await PlayerHit();
+
+        // Vänd det dolda kortet
+        await ShowDealerCard();
+        //Hit sålänge dealer behöver kort
+        while (blackjackGame.DealerNeedsCard())
+        {
+            await DealerHit();
+
+        }
+        
     }
 
     private async Task PlayerHit()
     {
-        Card card = blackjackGame.PlayerHit();
-        await GivePlayerCard(card.ImageSource);
+        string imageSource = blackjackGame.PlayerHit();
+        await RenderPlayerCard(imageSource);
          
     }
 
     private async Task DealerHit()
     {
-        Card card = blackjackGame.DealerHit();
-        await GiveDealerCard(card.ImageSource);
+        string imageSource = blackjackGame.DealerHit();
+        await RenderDealerCard(imageSource);
         
     }
 
     private void UpdatePlayerScore()
     {
-        playerScore = blackjackGame.GetPlayerScore();
-        PlayerScore.Text = $"{playerScore}";
+        PlayerScore.Text = $"{blackjackGame.GetPlayerScore()}";
     }
 
     private void UpdateDealerScore()
     {
-        dealerScore = blackjackGame.GetDealerScore();
-        DealerScore.Text = $"{dealerScore}";
+        //dealerPoints = blackjackGame.GetDealerScore();
+        DealerScore.Text = $"{blackjackGame.GetDealerScore()}";
     }
 
-    
+    private async Task ShowDealerCard()
+    {
+        var card = (CardContentView)DealerCards.Children[1];
 
-    
+        card.IsHidden = false;
+
+        await card.FlipAsync();
+
+        UpdateDealerScore();
+    }
+    private void CheckInitialGameState()
+    {
+        
+    }
+
 }

@@ -17,20 +17,24 @@ namespace DwarfBlackjack.Classes
             Dealer = new Dealer();
         }
 
-        public Card PlayerHit()
+        public string PlayerHit()
         {
             Card card = Deck.DrawCard(); //Ta ett kort från deck
-            Player.Hit(); //Ge till player
+            Player.AddCard(card); //Ge till player
+
+            return card.ImageSource;
         }
         public int GetPlayerScore()
         {
             Player.GetTotalValue(); //Returnera spelarens poäng
         }
 
-        public Card DealerHit()
+        public string DealerHit()
         {
             Card card = Deck.DrawCard();
-            Dealer.Hit();
+            Dealer.AddCard(card);
+
+            return card.ImageSource;
         }
 
         public int GetDealerScore()
@@ -38,10 +42,10 @@ namespace DwarfBlackjack.Classes
             Dealer.GetTotalValue();
         }
         
-
-        public void PlayerStand()
+        public bool DealerNeedsCard()
         {
-            // Kör dealer-logiken - Stand svårt
+            return Dealer.Score() < 17;
         }
+
     }
 }
