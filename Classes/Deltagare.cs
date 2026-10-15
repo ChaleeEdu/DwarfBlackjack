@@ -37,5 +37,6 @@ namespace DwarfBlackjack.Classes
         {
             return hand.CardsValue;
         }
+        
     }
 }

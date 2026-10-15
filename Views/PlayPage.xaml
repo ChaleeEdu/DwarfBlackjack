@@ -15,12 +15,13 @@
             Aspect="Fill" />
 
         <Grid
-            RowDefinitions="1*,2*,1*,1*,2*,1*,1*"
+            RowDefinitions="1*,2*,2*,2*,1*,2*"
             ColumnDefinitions="*">
 
             <Label
                 x:Name="DealerScore"
                 Text="0"
+                FontSize="25"
                 TextColor="White"
                 Grid.Row="0"
                 HorizontalTextAlignment="Center"
@@ -32,32 +33,28 @@
                 VerticalOptions="Fill"
                 Grid.Row="1" />
 
-            <Label
-                x:Name="DealerLabel"
-                Text="DEALER"
-                VerticalTextAlignment="Center"
-                HorizontalTextAlignment="Center"
-                Grid.Row="2"
-                TextColor="Gold" />
+            
 
             <Label
                 x:Name="GameStatus"
                 Text="Your turn"
+                FontSize="25"
                 VerticalTextAlignment="Center"
                 HorizontalTextAlignment="Center"
-                Grid.Row="3"
+                Grid.Row="2"
                 TextColor="White" />
 
             <AbsoluteLayout
                 x:Name="PlayerCards"
                 HorizontalOptions="Fill"
                 VerticalOptions="Fill"
-                Grid.Row="4" />
+                Grid.Row="3" />
 
             <Label
                 x:Name="PlayerScore"
                 Text="0"
-                Grid.Row="5"
+                FontSize="25"
+                Grid.Row="4"
                 HorizontalTextAlignment="Center"
                 VerticalTextAlignment="Start"
                 TextColor="White" />
@@ -66,7 +63,7 @@
                 x:Name="ActionButtons"
                 Spacing="10"
                 
-                Grid.Row="6"
+                Grid.Row="5"
                 HorizontalOptions="Center">
 
                 <Button
@@ -74,7 +71,8 @@
                     Style="{StaticResource GameButtonStyle}"
                     FontSize="30"
                     Margin="10"
-                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start"
                     x:Name="HitButton"
                     Clicked="OnHitClicked" />
 
@@ -83,7 +81,8 @@
                     Style="{StaticResource GameButtonStyle}"
                     FontSize="30"
                     Margin="10"
-                    HorizontalOptions="Fill"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start"
                     x:Name="StandButton"
                     Clicked="OnStandClicked" />
                 
