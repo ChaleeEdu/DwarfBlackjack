@@ -7,53 +7,81 @@ namespace DwarfBlackjack.Classes
 
     internal class Hand
     {
+        Deltagare Dealer = new Deltagare();
+        Deltagare Player = new Deltagare();
         List<Card> cards = new List<Card>();
-        public int CardsValue { get; set; }
-
-        public bool IsBust
-        {
-            get // hämtar värdet på handen - Alex
-            {
-                return CardsValue > 21;  // returnerar true om handens värde är över 21 - Alex
-            }
-        }
         public Hand()
         {
         }
-        public void AddCard(Card card)
+        public int CardsValue { get; set; }
+        public bool IsBlackjackPlayer()
         {
-            cards.Add(card);
-            CalculateCount();
+            if (Player.GetTotalValue() ==21) // kollar om värdet på handen är 21 och om man har två kort - Alex
+            {
+                return true; // returnerar true om man har blackjack - Alex
+            }
+            else
+            {
+                return false; // returnerar false om man inte har blackjack - Alex
+            }
         }
-        public void CalculateCount()
+        public bool IsBlackjackDealer()
         {
-            int aceCount = 0; // räknar antalet ess i handen - Alex
-            int total = 0; // värde på handen, så tex om man har 2, 3 och 4 så blir värdet 9 - Alex
+            if (Dealer.GetTotalValue() == 21) 
+            {
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+        public bool IsBustPlayer()
+        {
+            if (Player.GetTotalValue() > 21) // kollar om värdet på handen är över 21 - Alex
+            {
+                return true; // returnerar true om man har bust - Alex
+            }
+            else
+            {
+                return false; // returnerar false om man inte har bust - Alex
+            }
+        }
+
+        public bool IsBustDealer()
+        {
+            if (Dealer.GetTotalValue() > 21) 
+            {
+                return true; 
+            }
+            else
+            {
+                return false; 
+            }
+        }
+
+        public void CalculateAce()
+        {
+            int AceCount = 0; // räknar antalet ess i handen - Alex
+            int PlayerTotal = Player.GetTotalValue();
+            int DealerTotal = Dealer.GetTotalValue();
 
             foreach (Card card in cards) 
             { 
                 if (card.Rank == "a") // sätter värde på ess till 11 och ökar aceCount med 1 om man har ett ess - Alex
                 {
-                    total += 11;
-                    aceCount++;
-                }
-                else if (card.Rank == "j" || card.Rank == "q" || card.Rank == "k") // sätter värde på klädda kort till 10 - Alex
-                {
-                    total += 10;
-                }
-                else // sätter värde på resterande kort alltså 2-10 - Alex
-                {
-                    total += int.Parse(card.Rank); 
-                }
+                    PlayerTotal || DealerTotal += 11; 
+                    AceCount++;
+                }           
             }
             // justerar värdet på ess om totalen är över 21 - Alex
-            while (total > 21 && aceCount > 0)
+            while ((PlayerTotal > 21 && AceCount > 0) || (DealerTotal > 21 && AceCount > 0))
             {
-                total -= 10;
-                aceCount--;
-            }
+                PlayerTotal || DealerTotal -= 10; // justerar värdet på ess till 1 istället för 11 - Alex
 
-            CardsValue = total; // total är en lokal variabel, skickar värdet till cardsValue så det sparas - Alex
+                AceCount--;
+            }
         }
 
         public List<Card> ShowHand()

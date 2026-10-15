@@ -20,8 +20,10 @@ namespace DwarfBlackjack.Classes
 
         public void Hit()
         {
-            
+            AddCard();
+            GetTotalValue();
         }
+        public 
         
         public void Stand()
         {
@@ -33,9 +35,17 @@ namespace DwarfBlackjack.Classes
             return hand.ShowHand();
         }
 
-        public int Score()
+        public int GetTotalValue()
         {
-            return hand.CardsValue;
+            Card card = new Card();
+            int totalvalue = totalvalue + card.GetValue();   
+            return totalvalue;
         }
+        public int ResetHand()
+        {
+            int totalvalue = 0;
+            return totalvalue;
+        }
+
     }
 }
