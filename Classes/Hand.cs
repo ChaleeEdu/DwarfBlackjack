@@ -7,16 +7,15 @@ namespace DwarfBlackjack.Classes
 
     internal class Hand
     {
-        Deltagare Dealer = new Deltagare();
-        Deltagare Player = new Deltagare();
+       
         List<Card> cards = new List<Card>();
         public Hand()
         {
         }
         public int CardsValue { get; set; }
-        public bool IsBlackjackPlayer()
+        public bool IsBlackjack()
         {
-            if (Player.GetTotalValue() ==21) // kollar om värdet på handen är 21 och om man har två kort - Alex
+            if (CardsValue ==21) // kollar om värdet på handen är 21 och om man har två kort - Alex
             {
                 return true; // returnerar true om man har blackjack - Alex
             }
@@ -25,21 +24,11 @@ namespace DwarfBlackjack.Classes
                 return false; // returnerar false om man inte har blackjack - Alex
             }
         }
-        public bool IsBlackjackDealer()
-        {
-            if (Dealer.GetTotalValue() == 21) 
-            {
-                return true; 
-            }
-            else
-            {
-                return false; 
-            }
-        }
+        
 
         public bool IsBustPlayer()
         {
-            if (Player.GetTotalValue() > 21) // kollar om värdet på handen är över 21 - Alex
+            if (CardsValue > 21) // kollar om värdet på handen är över 21 - Alex
             {
                 return true; // returnerar true om man har bust - Alex
             }
@@ -49,9 +38,9 @@ namespace DwarfBlackjack.Classes
             }
         }
 
-        public bool IsBustDealer()
+        public bool IsBust()
         {
-            if (Dealer.GetTotalValue() > 21) 
+            if (CardsValue > 21) 
             {
                 return true; 
             }
@@ -61,7 +50,7 @@ namespace DwarfBlackjack.Classes
             }
         }
 
-        public void CalculateAce()
+       /* public void CalculateAce()
         {
             int AceCount = 0; // räknar antalet ess i handen - Alex
             int PlayerTotal = Player.GetTotalValue();
@@ -82,7 +71,10 @@ namespace DwarfBlackjack.Classes
 
                 AceCount--;
             }
-        }
+
+                AceCount--;
+            }
+        }*/
 
         public List<Card> ShowHand()
         {
