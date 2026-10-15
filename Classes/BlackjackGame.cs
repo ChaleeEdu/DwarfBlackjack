@@ -20,32 +20,28 @@ namespace DwarfBlackjack.Classes
         public Card PlayerHit()
         {
             Card card = Deck.DrawCard(); //Ta ett kort från deck
-            Player.AddCard(card); //Ge till player
-
-            return card;
+            Player.Hit(); //Ge till player
         }
         public int GetPlayerScore()
         {
-            return Player.Score();
+            Player.GetTotalValue(); //Returnera spelarens poäng
         }
 
         public Card DealerHit()
         {
             Card card = Deck.DrawCard();
-            Dealer.AddCard(card);
-
-            return card;
+            Dealer.Hit();
         }
 
         public int GetDealerScore()
         {
-            return Dealer.Score();
+            Dealer.GetTotalValue();
         }
         
 
         public void PlayerStand()
         {
-            // Kör dealer-logiken
+            // Kör dealer-logiken - Stand svårt
         }
     }
 }
