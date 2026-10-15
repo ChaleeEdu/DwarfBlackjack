@@ -22,11 +22,9 @@ namespace DwarfBlackjack.Classes
         {
             return hand.CardsValue;
         }
-         
-        
-        public void Stand()
+        public bool IsBlackjack()
         {
-
+            return hand.IsBlackjack();
         }
 
         public List<Card> ShowHand()

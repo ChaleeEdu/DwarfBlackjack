@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -24,7 +25,7 @@ namespace DwarfBlackjack.Classes
 
             return card.ImageSource;
         }
-        
+
         public int GetPlayerScore()
         {
             return Player.Score();
@@ -42,13 +43,26 @@ namespace DwarfBlackjack.Classes
         {
             return Dealer.Score();
         }
-        
+
         public bool DealerNeedsCard()
         {
             return Dealer.Score() < 17;
         }
+        public bool CheckBlackjack()
+        {
+            return Player.IsBlackjack() || Dealer.IsBlackjack();
+        }
 
-         
-
-    }
+        public void StartRound()
+        {
+            Deck.ResetDeck();
+            Player.ResetHand();
+            Dealer.ResetHand();
+        }
+        public DetermineWinner.Winner Result() // kalla den här metod för att avgöra vinnaren efter att rundan är slut - Alex
+        {
+            DetermineWinner determineWinner = new DetermineWinner(); 
+            return determineWinner.Result();
+        }
+}
 }
