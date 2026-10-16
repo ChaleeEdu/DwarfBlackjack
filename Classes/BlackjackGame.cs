@@ -77,10 +77,6 @@ namespace DwarfBlackjack.Classes
             else return Winner.dealer;  // om oavgjort vinner dealer
             //return Winner.dealer;
         }
-        public DetermineWinner.Winner Result() // kalla den här metod för att avgöra vinnaren efter att rundan är slut - Alex
-        {
-            DetermineWinner determineWinner = new DetermineWinner(); 
-            return determineWinner.Result();
-        }
-}
+    
+    }
 }
