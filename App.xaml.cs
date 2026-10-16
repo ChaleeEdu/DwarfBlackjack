@@ -22,8 +22,8 @@ namespace DwarfBlackjack
             {
                 Width = newWidth,
                 Height = newHeight,
-                //X = 100, // Optional: position from left
-                //Y = 100 // Optional: position from top
+                X = 20, // Optional: position from left
+                Y = 20 // Optional: position from top
             };
         }
     }

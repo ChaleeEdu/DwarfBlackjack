@@ -1,9 +1,5 @@
-
-
 using DwarfBlackjack.Classes;
-using DwarfBlackjack.Views;
 using Microsoft.Maui.Layouts;
-using System.ComponentModel;
 
 namespace DwarfBlackjack.Views;
 
@@ -42,44 +38,14 @@ public partial class PlayPage : ContentPage
     }
     private async Task GiveInitialCards()
     {
+        SetButtonsEnabled(false);
         await PlayerHit();
         await DealerHit();
         await PlayerHit();
         await DealerHit();
-        CheckInitialGameState();
+        await CheckPlayerHand();
     }
-    private async Task RenderPlayerCard(string cardText)
-    {
-        var card = new Views.CardContentView(cardText);
-
-        PlayerCards.Children.Add(card);
-        PositionCards(PlayerCards);
-        
-        await card.AnimateCardIn(Spelplan.Height);
-        await card.FlipAsync();
-
-        UpdatePlayerScore();
-    }
-
-    private async Task RenderDealerCard(string cardText)
-    {
-        var card = new Views.CardContentView(cardText);
-        // Göm dealers andra kort
-        if (DealerCards.Children.Count == 1)
-        {
-            card.IsHidden = true;
-        }
-
-        DealerCards.Children.Add(card);
-        PositionCards(DealerCards);
-        await card.AnimateCardIn(Spelplan.Height);
-        await card.FlipAsync();
-
-        if (!card.IsHidden)
-        {
-            UpdateDealerScore();
-        }
-    }
+    
     /* Positonerar varje kort så att de överlappar varandra 40% */
     private void PositionCards(AbsoluteLayout container)
     {
@@ -111,37 +77,112 @@ public partial class PlayPage : ContentPage
     
     private async void OnHitClicked(object sender, EventArgs e)
     {
-        GameStatus.Text = "Your turn";
+        await Task.Yield();
+
+        SetButtonsEnabled(false);
+        //GameStatus.Text = "Your turn";
         await PlayerHit();
+        await CheckPlayerHand();
+        
     }
 
     private async void OnStandClicked(object sender, EventArgs e)
     {
+        await Task.Yield();
+
+        SetButtonsEnabled(false);
         GameStatus.Text = "Dealer's turn";
 
-        // Vänd det dolda kortet
-        await ShowDealerCard();
-        //Hit sålänge dealer behöver kort
-        while (blackjackGame.DealerNeedsCard())
-        {
-            await DealerHit();
-
-        }
+        DealerTurn();
         
+        
+    }
+
+    
+    private async void OnAgainClicked(object sender, EventArgs e)
+    {
+        await Task.Yield();
+        //blackjackGame.PlayAgain();
+
+        PlayerCards.Children.Clear();
+        DealerCards.Children.Clear();
+
+        PlayerScore.Text = "0";
+        DealerScore.Text = "0";
+
+        HideButtons(false);
+        SetButtonsEnabled(true);
+
+        await GiveInitialCards();
+
+
+    }
+
+    private void OnQuitClicked(object sender, EventArgs e)
+    {
+        Application.Current?.Quit();
     }
 
     private async Task PlayerHit()
     {
         string imageSource = blackjackGame.PlayerHit();
-        await RenderPlayerCard(imageSource);
+        
+        var card = new Views.CardContentView(imageSource);
+
+        PlayerCards.Children.Add(card);
+        PositionCards(PlayerCards);
+
+        await card.AnimateCardIn(Spelplan.Height);
+        await card.FlipAsync();
+
+        UpdatePlayerScore();
+
+        //await CheckPlayerHand();
+        
          
     }
+
+    
 
     private async Task DealerHit()
     {
         string imageSource = blackjackGame.DealerHit();
-        await RenderDealerCard(imageSource);
-        
+        //await RenderDealerCard(imageSource);
+        var card = new Views.CardContentView(imageSource);
+        // Göm dealers andra kort
+        if (DealerCards.Children.Count == 1)
+        {
+            card.IsHidden = true;
+        }
+
+        DealerCards.Children.Add(card);
+        PositionCards(DealerCards);
+        await card.AnimateCardIn(Spelplan.Height);
+        await card.FlipAsync();
+
+        if (!card.IsHidden)
+        {
+            UpdateDealerScore();
+        }
+
+    }
+    private async void DealerTurn()
+    {
+        // Vänd det dolda kortet
+        await ShowDealerCard();
+        if (blackjackGame.DealerHasBlackjack())
+        {
+            GameStatus.Text = "Dealer has Blackjack!";
+            return;
+        }
+
+        while (blackjackGame.DealerNeedsCard())
+        {
+            await DealerHit();
+            await Task.Delay(500);
+
+        }
+        ShowWinner();
     }
 
     private void UpdatePlayerScore()
@@ -165,9 +206,78 @@ public partial class PlayPage : ContentPage
 
         UpdateDealerScore();
     }
-    private void CheckInitialGameState()
+    private async Task CheckPlayerHand()
     {
+        if (blackjackGame.PlayerHasBlackjack())
+        {
+            await ShowDealerCard();
+
+            if (blackjackGame.DealerHasBlackjack())
+            {
+                GameStatus.Text = "Both have Blackjack! Dealer wins!";
+            }
+            else
+            {
+                GameStatus.Text = "Blackjack! You win!";
+            }
+            HideButtons(true);
+            return;
+        }
+        
+
+        else if (blackjackGame.IsBust())
+        {
+            GameStatus.Text = "Bust! Dealer wins!";
+            await ShowDealerCard();
+            HideButtons(true);
+            return;
+        }
+        else if (blackjackGame.Has21())
+        {
+
+            GameStatus.Text = "Dealer's turn";
+
+            DealerTurn();
+            return;
+        }
+        else
+            SetButtonsEnabled(true);
+
         
     }
 
+    private void ShowWinner()
+    {
+        string winner = blackjackGame.CheckWinner();
+
+        if (winner == "Player")
+        {
+            GameStatus.Text = "You win!";
+        }
+        else if (winner == "Dealer")
+        {
+            GameStatus.Text = "Dealer wins!";
+        }
+        else
+        {
+            GameStatus.Text = "Push!";
+        }
+        HideButtons(true);
+    }
+
+    private void SetButtonsEnabled(bool state)
+    {
+        HitButton.IsEnabled = state;
+        StandButton.IsEnabled = state;
+    }
+    private void HideButtons(bool state)
+    {
+        HitButton.IsVisible = !state;
+        StandButton.IsVisible = !state;
+        AgainButton.IsVisible = state;
+        QuitButton.IsVisible = state;
+    }
+
+
 }
+

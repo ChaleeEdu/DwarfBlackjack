@@ -40,6 +40,21 @@ namespace DwarfBlackjack.Classes
             int totalvalue = 0;
             return totalvalue;
         }
+
+        public bool IsBlackjack()
+        {
+            return hand.IsBlackjack();
+        }
+
+        public bool IsBust()
+        {
+            return hand.IsBust();
+        }
+
+        public bool Has21()
+        {
+            return hand.Has21();
+        }
         
     }
 }

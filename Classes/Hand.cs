@@ -15,7 +15,7 @@ namespace DwarfBlackjack.Classes
         public int CardsValue { get; set; }
         public bool IsBlackjack()
         {
-            if (CardsValue ==21) // kollar om värdet på handen är 21 och om man har två kort - Alex
+            if (CardsValue == 21 && cards.Count == 2) // kollar om värdet på handen är 21 och om man har två kort - Alex
             {
                 return true; // returnerar true om man har blackjack - Alex
             }
@@ -48,6 +48,10 @@ namespace DwarfBlackjack.Classes
             {
                 return false; 
             }
+        }
+        public bool Has21()
+        {
+            return CardsValue == 21;
         }
 
         /* public void CalculateAce()

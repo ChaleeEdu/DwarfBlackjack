@@ -47,8 +47,30 @@ namespace DwarfBlackjack.Classes
         {
             return Dealer.Score() < 17;
         }
+        public string CheckWinner()
+        {
 
-         
+            if (Dealer.IsBust())
+                return "Player";
+
+            if (Player.Score() > Dealer.Score())
+                return "Player";
+
+            if (Dealer.Score() > Player.Score())
+                return "Dealer";
+
+            return "Push";
+        }
+
+        public bool PlayerHasBlackjack()
+        {
+            return Player.IsBlackjack();
+        }
+
+        public bool DealerHasBlackjack()
+        {
+            return Dealer.IsBlackjack();
+        }
 
     }
 }
