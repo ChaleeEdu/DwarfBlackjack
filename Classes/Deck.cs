@@ -25,7 +25,7 @@ namespace DwarfBlackjack.Classes
                 {
                     Card card = new Card(suit, rank);
                     cards.Add(card);
-                    Shuffle();
+                    
                 }
             }
             Shuffle();
