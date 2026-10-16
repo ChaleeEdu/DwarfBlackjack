@@ -59,6 +59,24 @@ namespace DwarfBlackjack.Classes
             Player.ResetHand();
             Dealer.ResetHand();
         }
+        
+
+
+        public enum Winner // Metod för att anta fördefinierade värden för vinnaren av spelet
+        {
+            player,
+            dealer
+        }
+        public Winner Result() // Metod för att bestämma vinnaren av spelet
+        {
+            
+            //if (playerScore > 21) return Winner.dealer;   // player bust
+            if (Dealer.IsBust()) return Winner.player;   // dealer bust
+            else if(Player.Score() > Dealer.Score()) return Winner.player;
+            else if (Player.Score() < Dealer.Score()) return Winner.dealer;
+            else return Winner.dealer;  // om oavgjort vinner dealer
+            //return Winner.dealer;
+        }
         public DetermineWinner.Winner Result() // kalla den här metod för att avgöra vinnaren efter att rundan är slut - Alex
         {
             DetermineWinner determineWinner = new DetermineWinner(); 

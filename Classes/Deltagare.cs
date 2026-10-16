@@ -26,6 +26,11 @@ namespace DwarfBlackjack.Classes
         {
             return hand.IsBlackjack();
         }
+        
+        public bool IsBust()
+        {
+            return hand.IsBust();
+        }
 
         public List<Card> ShowHand()
         {
@@ -33,10 +38,9 @@ namespace DwarfBlackjack.Classes
         }
 
         
-        public int ResetHand()
+        public void ResetHand()
         {
-            int totalvalue = 0;
-            return totalvalue;
+            hand = new Hand();
         }
         
     }
