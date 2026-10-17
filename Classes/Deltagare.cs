@@ -22,12 +22,12 @@ namespace DwarfBlackjack.Classes
         {
             return hand.CardsValue;
         }
-        public bool IsBlackjack()
+        public bool IsBlackjack() // kollar om handen är blackjack
         {
-            return hand.IsBlackjack();
+            return hand.IsBlackjack(); 
         }
         
-        public bool IsBust()
+        public bool IsBust() // kollar om handen är bust
         {
             return hand.IsBust();
         }
@@ -38,7 +38,7 @@ namespace DwarfBlackjack.Classes
         }
 
         
-        public void ResetHand()
+        public void ResetHand() // nollar handen 
         {
             hand = new Hand();
         }

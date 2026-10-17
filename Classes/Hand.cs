@@ -100,7 +100,7 @@ namespace DwarfBlackjack.Classes
             return cards;
         }
 
-        public void AddCard(Card card)
+        public void AddCard(Card card) // lägger till ett kort i handen och räknar om värdet på handen - Alex
         {
             cards.Add(card);
             CalculateCount();

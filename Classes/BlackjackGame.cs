@@ -36,7 +36,7 @@ namespace DwarfBlackjack.Classes
             Card card = Deck.DrawCard();
             Dealer.AddCard(card);
 
-            return card.ImageSource;
+            return card.ImageSource; // returnerar bildkällan för det dragna kortet
         }
 
         public int GetDealerScore()
@@ -46,14 +46,14 @@ namespace DwarfBlackjack.Classes
 
         public bool DealerNeedsCard()
         {
-            return Dealer.Score() < 17;
+            return Dealer.Score() < 17; // kollar om dealern behöver ett kort (om poängen är mindre än 17)
         }
         public bool CheckBlackjack()
         {
-            return Player.IsBlackjack() || Dealer.IsBlackjack();
+            return Player.IsBlackjack() || Dealer.IsBlackjack(); // kollar om någon av spelarna har blackjack
         }
 
-        public void StartRound()
+        public void StartRound() // Metod för att starta en ny runda nollar händerna och återställer kortleken
         {
             Deck.ResetDeck();
             Player.ResetHand();
@@ -69,13 +69,11 @@ namespace DwarfBlackjack.Classes
         }
         public Winner Result() // Metod för att bestämma vinnaren av spelet
         {
-            
-            //if (playerScore > 21) return Winner.dealer;   // player bust
-            if (Dealer.IsBust()) return Winner.player;   // dealer bust
+            if (Dealer.IsBust()) return Winner.player;   // dealer bust returnerar player som vinnare
+            else if (Player.IsBust()) return Winner.dealer; // player bust returnerar dealer som vinnare
             else if(Player.Score() > Dealer.Score()) return Winner.player;
             else if (Player.Score() < Dealer.Score()) return Winner.dealer;
             else return Winner.dealer;  // om oavgjort vinner dealer
-            //return Winner.dealer;
         }
     
     }

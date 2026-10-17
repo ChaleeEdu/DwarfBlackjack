@@ -19,7 +19,7 @@ namespace DwarfBlackjack.Classes
 
         public Deck() 
         { 
-            foreach(string suit in suits)
+            foreach(string suit in suits) // loopar igenom alla suits och ranks och skapar ett kort för varje kombination
             {
                 foreach(string rank in ranks)
                 {
@@ -31,7 +31,7 @@ namespace DwarfBlackjack.Classes
             Shuffle();
         }
         
-        public void ResetDeck()
+        public void ResetDeck() // nollar currentIndex och shufflar om kortleken
         {
             currentIndex = 0;
             Shuffle();
@@ -40,12 +40,12 @@ namespace DwarfBlackjack.Classes
 
         public void Shuffle()
         {
-            Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards));
-            foreach(Card card in cards)
-            Debug.WriteLine($"{card.Suit} {card.Rank}");
+            Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards)); // funktion som är inbygd i .NET 8.0 som shufflar en lista. CollectionsMarshal.AsSpan(cards) gör om listan till en span som kan shufflas.  
+            foreach (Card card in cards)
+            Debug.WriteLine($"{card.Suit} {card.Rank}"); // för att kolla om shuffle fungerar i debug mode
         }
 
-        public Card DrawCard()
+        public Card DrawCard() // drar ett kort från kortleken och ökar currentIndex med 1 och returnerar gamla indexplatsen
         {
             currentIndex++;
             return cards[currentIndex-1];
