@@ -36,6 +36,10 @@ namespace DwarfBlackjack.Classes
                 return false; 
             }
         }
+        public bool Has21()
+        {
+            return CardsValue == 21;
+        }
 
 
         /* public void CalculateAce()

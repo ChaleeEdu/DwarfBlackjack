@@ -85,8 +85,30 @@
                     HorizontalOptions="Start"
                     x:Name="StandButton"
                     Clicked="OnStandClicked" />
-                
-                
+
+                <Button
+                    Text="AGAIN"
+                    Style="{StaticResource GameButtonStyle}"
+                    FontSize="30"
+                    Margin="10"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start"
+                    x:Name="AgainButton"
+                    IsVisible="False"
+                    Clicked="OnAgainClicked" />
+
+                <Button
+                    Text="QUIT"
+                    Style="{StaticResource GameButtonStyle}"
+                    FontSize="30"
+                    Margin="10"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start"
+                    x:Name="QuitButton"
+                    IsVisible="False"
+                    Clicked="OnQuitClicked" />
+
+
 
             </HorizontalStackLayout>
 

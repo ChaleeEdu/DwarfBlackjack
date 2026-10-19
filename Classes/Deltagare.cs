@@ -38,9 +38,24 @@ namespace DwarfBlackjack.Classes
         }
 
         
-        public void ResetHand() // nollar handen 
+        public void ResetHand()
         {
             hand = new Hand();
+        }
+
+        public bool IsBlackjack()
+        {
+            return hand.IsBlackjack();
+        }
+
+        public bool IsBust()
+        {
+            return hand.IsBust();
+        }
+
+        public bool Has21()
+        {
+            return hand.Has21();
         }
         
     }
