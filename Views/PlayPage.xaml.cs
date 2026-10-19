@@ -6,36 +6,37 @@ namespace DwarfBlackjack.Views;
 //PlayPage bestämmer vad som ska visas på skärmen under spelets gång @author Calle Nilsson
 public partial class PlayPage : ContentPage
 {
-    private int dealerPoints = 0;
     private const double CardAspectRatio = 168.0 / 240.0; //bildstorlek på korten
     private const double CardSpacingRatio = 0.6; //kort överlappar varandra 40%
 
     private BlackjackGame blackjackGame;
 
     public PlayPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         blackjackGame = new BlackjackGame();
         PlayerCards.SizeChanged += OnPlayerCardsSizeChanged;
         DealerCards.SizeChanged += OnDealerCardsSizeChanged;
 
         Loaded += OnPageLoaded;
     }
-
+    //Om användaren ändrar storleken på skärmen så positioneras korten om på nytt för att passa nya storleken.
     private void OnPlayerCardsSizeChanged(object? sender, EventArgs e)
     {
         PositionCards(PlayerCards);
     }
+    //Om användaren ändrar storleken på skärmen så positioneras korten om på nytt för att passa nya storleken.
     private void OnDealerCardsSizeChanged(object? sender, EventArgs e)
     {
         PositionCards(DealerCards);
     }
-
+    //När sidan har laddats klart så anropas metoden för att ge de första korten till deltagarna
     private async void OnPageLoaded(object? sender, EventArgs e)
     {
         await GiveInitialCards();
-        
+
     }
+    //Ger två kort till respektive Deltagare i början av rundan och kollar Player hand.
     private async Task GiveInitialCards()
     {
         SetButtonsEnabled(false);
@@ -45,12 +46,12 @@ public partial class PlayPage : ContentPage
         await DealerHit();
         await CheckPlayerHand();
     }
-    
+
     /* Positonerar varje kort så att de överlappar varandra 40% */
     private void PositionCards(AbsoluteLayout container)
     {
         int count = container.Children.Count;
-        
+
         double cardHeight = container.Height * 0.8;
         double cardWidth = cardHeight * CardAspectRatio;
         // Avståndet mellan kortens vänstra kanter.
@@ -62,19 +63,19 @@ public partial class PlayPage : ContentPage
         // med kort hamnar centrerad i containern.
         double startX = (container.Width - totalWidth) / 2;
         double y = (container.Height - cardHeight) / 2;
-        
+
         for (int i = 0; i < count; i++)
         {
             var card = (View)container.Children[i];
             //Varje nytt kort flyttas åt höger med samma spacing
             double x = startX + i * spacing;
-            
+
             Rect rect = new Rect(x, y, cardWidth, cardHeight);
             AbsoluteLayout.SetLayoutBounds(card, rect);
             AbsoluteLayout.SetLayoutFlags(card, AbsoluteLayoutFlags.None);
         }
     }
-    
+    //När player trycker på HIT-knappen, låser knapparna och anropar PlayerHit, CheckPlayerHand
     private async void OnHitClicked(object sender, EventArgs e)
     {
         await Task.Yield();
@@ -83,9 +84,9 @@ public partial class PlayPage : ContentPage
         //GameStatus.Text = "Your turn";
         await PlayerHit();
         await CheckPlayerHand();
-        
-    }
 
+    }
+    //När spelare trycker på Stand-knappen blir det Dealerns tur.
     private async void OnStandClicked(object sender, EventArgs e)
     {
         await Task.Yield();
@@ -94,15 +95,17 @@ public partial class PlayPage : ContentPage
         GameStatus.Text = "Dealer's turn";
 
         DealerTurn();
-        
-        
+
+
     }
 
-    
+    //Anropas om spelaren trycker på knappen att spela igen.
+    //Input till backend att starta om rundan.
+    //Nollställer skärmen
     private async void OnAgainClicked(object sender, EventArgs e)
     {
         await Task.Yield();
-        //blackjackGame.PlayAgain();
+        blackjackGame.StartRound();
 
         PlayerCards.Children.Clear();
         DealerCards.Children.Clear();
@@ -112,21 +115,24 @@ public partial class PlayPage : ContentPage
 
         HideButtons(false);
         SetButtonsEnabled(true);
+        GameStatus.Text = "Your turn";
 
         await GiveInitialCards();
 
 
     }
-
+    //Stänger programmet
     private void OnQuitClicked(object sender, EventArgs e)
     {
         Application.Current?.Quit();
     }
 
+    //Input till backend att Player tar kort.
+    //Kort visas på skärmen och uppdaterar totala kortpoäng.
     private async Task PlayerHit()
     {
         string imageSource = blackjackGame.PlayerHit();
-        
+
         var card = new Views.CardContentView(imageSource);
 
         PlayerCards.Children.Add(card);
@@ -136,14 +142,9 @@ public partial class PlayPage : ContentPage
         await card.FlipAsync();
 
         UpdatePlayerScore();
-
-        //await CheckPlayerHand();
-        
-         
     }
-
-    
-
+    //Input till backend att Dealer tar kort.
+    //Kort visas på skärmen och uppdaterar totala kortpoäng.
     private async Task DealerHit()
     {
         string imageSource = blackjackGame.DealerHit();
@@ -166,14 +167,16 @@ public partial class PlayPage : ContentPage
         }
 
     }
+    //När det är Dealerns tur visas andra kortet och kollar med backend om Dealer har blackjack.
+    //Sålänge Dealer behöver kort görs DealerHit. Sedan visas Vinnaren.
     private async void DealerTurn()
     {
         // Vänd det dolda kortet
         await ShowDealerCard();
-        if (blackjackGame.DealerHasBlackjack())
+        if (blackjackGame.CheckDealerBlackjack())
         {
             GameStatus.Text = "Dealer has Blackjack!";
-            return;
+            
         }
 
         while (blackjackGame.DealerNeedsCard())
@@ -192,10 +195,10 @@ public partial class PlayPage : ContentPage
 
     private void UpdateDealerScore()
     {
-        //dealerPoints = blackjackGame.GetDealerScore();
+        
         DealerScore.Text = $"{blackjackGame.GetDealerScore()}";
     }
-
+    //Visar dealerns andra kort och visar poängen i handen.
     private async Task ShowDealerCard()
     {
         var card = (CardContentView)DealerCards.Children[1];
@@ -206,13 +209,15 @@ public partial class PlayPage : ContentPage
 
         UpdateDealerScore();
     }
+    //Frågar backend om Spelaren har Blackjack och isåfall om Dealer också har blackjack.
+    //Annars om spelaren är tjock, annars om 21 med fler än 2 kort
     private async Task CheckPlayerHand()
     {
-        if (blackjackGame.PlayerHasBlackjack())
+        if (blackjackGame.CheckPlayerBlackjack())
         {
             await ShowDealerCard();
 
-            if (blackjackGame.DealerHasBlackjack())
+            if (blackjackGame.CheckDealerBlackjack())
             {
                 GameStatus.Text = "Both have Blackjack! Dealer wins!";
             }
@@ -223,16 +228,16 @@ public partial class PlayPage : ContentPage
             HideButtons(true);
             return;
         }
-        
 
-        else if (blackjackGame.IsBust())
+
+        else if (blackjackGame.IsPlayerBust())
         {
             GameStatus.Text = "Bust! Dealer wins!";
             await ShowDealerCard();
             HideButtons(true);
             return;
         }
-        else if (blackjackGame.Has21())
+        else if (blackjackGame.PlayerHas21())
         {
 
             GameStatus.Text = "Dealer's turn";
@@ -243,11 +248,12 @@ public partial class PlayPage : ContentPage
         else
             SetButtonsEnabled(true);
 
-        
-    }
 
+    }
+    //Frågar backend vem som vunnit och visar resultat på skärmen.
     private void ShowWinner()
     {
+
         string winner = blackjackGame.CheckWinner();
 
         if (winner == "Player")
@@ -260,16 +266,17 @@ public partial class PlayPage : ContentPage
         }
         else
         {
-            GameStatus.Text = "Push!";
+            GameStatus.Text = "Dealer wins!";
         }
         HideButtons(true);
     }
-
+    //Bestämmer om knapparna går att trycka på eller ej
     private void SetButtonsEnabled(bool state)
     {
         HitButton.IsEnabled = state;
         StandButton.IsEnabled = state;
     }
+    //Byter mellan Hit,Stand och Again,Quit knapparna
     private void HideButtons(bool state)
     {
         HitButton.IsVisible = !state;

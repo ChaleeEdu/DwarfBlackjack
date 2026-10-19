@@ -9,7 +9,7 @@ namespace DwarfBlackjack.Classes
     internal class Deck
     {
         private Random random = new Random();
-        int currentIndex = 0; //var i deck man tagit kort .Calle
+        int currentIndex = 0; //var i deck man tagit kort
         string[] suits = { "hearts", "diamonds", "clubs", "spades" };
         string[] ranks = {"a", "2", "3",  "4" , "5", "6", "7", "8", "9", "10", "j", "q", "k"};
 

@@ -35,10 +35,9 @@ namespace DwarfBlackjack.Classes
         }
 
         
-        public int ResetHand()
+        public void ResetHand()
         {
-            int totalvalue = 0;
-            return totalvalue;
+            hand = new Hand();
         }
 
         public bool IsBlackjack()
