@@ -47,10 +47,7 @@ namespace DwarfBlackjack.Classes
         {
             return Dealer.Score() < 17; // kollar om dealern behöver ett kort (om poängen är mindre än 17)
         }
-        public bool CheckBlackjack()
-        {
-            return Player.IsBlackjack() || Dealer.IsBlackjack(); // kollar om någon av spelarna har blackjack
-        }
+        
 
         public void StartRound() // Metod för att starta en ny runda nollar händerna och återställer kortleken
         {
@@ -77,12 +74,7 @@ namespace DwarfBlackjack.Classes
             return Player.Has21();
         }
 
-        public void StartRound()
-        {
-            Deck.ResetDeck();
-            Player.ResetHand();
-            Dealer.ResetHand();
-        }
+        
 
 
 
